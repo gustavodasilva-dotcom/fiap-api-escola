@@ -2,9 +2,13 @@ namespace Fiap.Api.Escola.Domain.Abstractions;
 
 public interface IRepository<TEntity>
 {
-    Task AddAsync(TEntity entity);
+    Task<IEnumerable<TEntity>?> GetAllAsync();
 
-    Task UpdateAsync(TEntity entity);
+    Task<TEntity?> GetByIdAsync(int Id);
 
-    Task DeleteAsync(TEntity entity);
+    Task<bool> AddAsync(TEntity entity);
+
+    Task<bool> UpdateAsync(TEntity entity);
+
+    Task<bool> DeleteAsync(TEntity entity);
 }

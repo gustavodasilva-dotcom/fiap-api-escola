@@ -1,4 +1,4 @@
-using Fiap.Api.Escola.Domain.Entities;
+using Fiap.Api.Escola.Application.Contracts.Responses;
 using Fiap.Api.Escola.Domain.Shared;
 using MediatR;
 
@@ -8,4 +8,4 @@ public record UpdateAlunoCommand(
     int Id,
     string Nome,
     string Usuario,
-    string Senha) : IRequest<Result<Aluno, Error>>;
+    string Senha) : IRequest<Result<AlunoResponse, Error>>;

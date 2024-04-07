@@ -1,17 +1,20 @@
-﻿using Fiap.Api.Escola.Domain.Primitives;
-using Fiap.Api.Escola.Domain.Shared;
+﻿using Fiap.Api.Escola.Domain.Shared;
 using Fiap.Api.Escola.Domain.Extensions;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fiap.Api.Escola.Domain.Entities;
 
-public class Aluno : Entity
+[Table("aluno")]
+public class Aluno
 {
     private Aluno(
         int id,
         string nome,
         string usuario,
-        string senha) : base(id)
+        string senha)
     {
+        Id = id;
         Nome = nome;
         Usuario = usuario;
         Senha = senha;
@@ -20,17 +23,24 @@ public class Aluno : Entity
     private Aluno(
         string nome,
         string usuario,
-        string senha) : base()
+        string senha)
     {
         Nome = nome;
         Usuario = usuario;
         Senha = senha;
     }
 
+    [Key]
+    [Column("id")]
+    public int Id { get; set; }
+
+    [Column("nome")]
     public string Nome { get; set; }
 
+    [Column("usuario")]
     public string Usuario { get; set; }
 
+    [Column("senha")]
     public string Senha { get; set; }
 
     public static Result<Aluno, Error> Create(
@@ -45,12 +55,12 @@ public class Aluno : Entity
             return senhaForteResult.Error!;
         }
 
-        var aluno = new Aluno(
+        var novoAluno = new Aluno(
             nome.Trim(),
             usuario.Trim(),
             senhaForteResult.Value!);
 
-        return aluno;
+        return novoAluno;
     }
 
     public static Result<Aluno, Error> Update(
@@ -66,41 +76,12 @@ public class Aluno : Entity
             return senhaForteResult.Error!;
         }
 
-        var aluno = new Aluno(
+        var alunoAtualizado = new Aluno(
             id,
             nome.Trim(),
             usuario.Trim(),
             senhaForteResult.Value!);
 
-        return aluno;
-    }
-
-    public override string ToInsertQuery()
-    {
-        return $@"
-            INSERT INTO [dbo].[aluno]
-                ([nome]
-                ,[usuario]
-                ,[senha])
-            VALUES
-                ('{Nome}'
-                ,'{Usuario}'
-                ,'{Senha}');";
-    }
-
-    public override string ToUpdateQuery()
-    {
-        return $@"
-            UPDATE [dbo].[aluno]
-            SET
-                 [nome] = '{Nome}'
-                ,[usuario] = '{Usuario}'
-                ,[senha] = '{Senha}'
-            WHERE [id] = {Id};";
-    }
-
-    public override string ToDeleteQuery()
-    {
-        return $@"DELETE FROM [dbo].[aluno] WHERE [id] = {Id};";
+        return alunoAtualizado;
     }
 }

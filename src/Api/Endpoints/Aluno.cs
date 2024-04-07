@@ -4,7 +4,9 @@ using Fiap.Api.Escola.Application.Alunos.Commands.Delete;
 using Fiap.Api.Escola.Application.Alunos.Commands.Update;
 using Fiap.Api.Escola.Application.Alunos.Queries.GetAll;
 using Fiap.Api.Escola.Application.Alunos.Queries.GetById;
+using Fiap.Api.Escola.Application.Contracts.Requests;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Fiap.Api.Escola.Api.Endpoints;
 
@@ -26,14 +28,14 @@ public class Aluno : ICarterModule
 
         app.MapGet("alunos/{id:int}", async (int id, ISender sender) =>
         {
-            var aluno = await sender.Send(new GetByIdQuery(id));
+            var alunoResult = await sender.Send(new GetAlunoByIdQuery(id));
 
-            if (aluno is null)
+            if (alunoResult.IsFailure)
             {
-                return Results.NotFound();
+                return Results.NotFound(alunoResult.Value);
             }
 
-            return Results.Ok(aluno);
+            return Results.Ok(alunoResult.Value);
         });
 
         app.MapPost("alunos", async (CreateAlunoCommand command, ISender sender) =>
@@ -48,8 +50,14 @@ public class Aluno : ICarterModule
             return Results.Created();
         });
 
-        app.MapPut("alunos", async (UpdateAlunoCommand command, ISender sender) =>
+        app.MapPut("alunos/{id:int}", async (int id, [FromBody] UpdateAlunoRequest request, ISender sender) =>
         {
+            var command = new UpdateAlunoCommand(
+                id,
+                request.Nome,
+                request.Usuario,
+                request.Senha);
+
             var result = await sender.Send(command);
 
             if (result.IsFailure)
@@ -60,7 +68,7 @@ public class Aluno : ICarterModule
             return Results.Ok(result.Value);
         });
 
-        app.MapPatch("alunos/{id:int}", async (int id, ISender sender) =>
+        app.MapDelete("alunos/{id:int}", async (int id, ISender sender) =>
         {
             var result = await sender.Send(new DeleteAlunoCommand(id));
 

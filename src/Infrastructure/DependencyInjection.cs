@@ -14,7 +14,9 @@ public static class DependencyInjection
         services.AddScoped(_ =>
             new SqlConnection(configuration.GetConnectionString("Default")));
 
-        services.AddScoped<IAlunoRepository, AlunoRepository>();
+        services
+            .AddScoped<IAlunoRepository, AlunoRepository>()
+            .AddScoped<ITurmaRepository, TurmaRepository>();
 
         return services;
     }

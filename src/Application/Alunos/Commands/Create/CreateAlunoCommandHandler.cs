@@ -6,7 +6,7 @@ using MediatR;
 namespace Fiap.Api.Escola.Application.Alunos.Commands.Create;
 
 internal sealed class CreateAlunoCommandHandler
-    : IRequestHandler<CreateAlunoCommand, Result<Aluno, Error>>
+    : IRequestHandler<CreateAlunoCommand, Result<bool, Error>>
 {
     private readonly IAlunoRepository _alunoRepository;
 
@@ -15,7 +15,7 @@ internal sealed class CreateAlunoCommandHandler
         _alunoRepository = alunoRepository;
     }
 
-    public async Task<Result<Aluno, Error>> Handle(
+    public async Task<Result<bool, Error>> Handle(
         CreateAlunoCommand request,
         CancellationToken cancellationToken)
     {
@@ -29,8 +29,6 @@ internal sealed class CreateAlunoCommandHandler
             return criarAlunoResult.Error!;
         }
 
-        await _alunoRepository.AddAsync(criarAlunoResult.Value!);
-
-        return criarAlunoResult.Value!;
+        return await _alunoRepository.AddAsync(criarAlunoResult.Value!);
     }
 }
