@@ -5,13 +5,15 @@ namespace Fiap.Api.Escola.Application.Contracts.Responses;
 public class AlunoResponse(
     int id,
     string nome,
-    string usuario)
+    string usuario,
+    string senha)
 {
     public AlunoResponse()
         : this(
               id: 0,
               nome: string.Empty,
-              usuario: string.Empty)
+              usuario: string.Empty,
+              senha: string.Empty)
     {
     }
 
@@ -23,4 +25,7 @@ public class AlunoResponse(
 
     [JsonPropertyName("usuario")]
     public string Usuario { get; set; } = usuario;
+
+    [JsonPropertyName("senha")]
+    public string Senha { get; set; } = senha;
 }

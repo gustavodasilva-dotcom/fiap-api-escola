@@ -17,6 +17,9 @@ internal class AlunoProfile : Profile
                 src => src.MapFrom(x => x.Nome))
             .ForMember(
                 dest => dest.Usuario,
-                src => src.MapFrom(x => x.Usuario));
+                src => src.MapFrom(x => x.Usuario))
+             .ForMember(
+                dest => dest.Senha,
+                src => src.MapFrom(x => x.Senha));
     }
 }

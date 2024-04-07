@@ -11,4 +11,8 @@ internal sealed class ApplicationErrors
     public readonly static Error TurmaNotFound = new(
         "Turma.NotFound",
         "Não foi encontrada nenhuma turma com o id informado");
+
+    public readonly static Error TurmaMesmoNomeExistente = new(
+        "Turma.MesmoNomeExistente",
+        "Já existe uma turma cadastrada com o nome informado");
 }

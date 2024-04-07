@@ -4,14 +4,14 @@ namespace Fiap.Api.Escola.Application.Contracts.Responses;
 
 public class TurmaResponse(
     int id,
-    int curso_id,
+    int cursoId,
     string turma,
     int ano)
 {
     public TurmaResponse()
         : this(
               id: 0,
-              curso_id: 0,
+              cursoId: 0,
               turma: string.Empty,
               ano: DateTime.MinValue.Year)
     {
@@ -20,8 +20,8 @@ public class TurmaResponse(
     [JsonPropertyName("id")]
     public int Id { get; set; } = id;
 
-    [JsonPropertyName("curso_id")]
-    public int CursoID { get; set; } = curso_id;
+    [JsonPropertyName("cursoId")]
+    public int CursoID { get; set; } = cursoId;
 
     [JsonPropertyName("turma")]
     public string Nome { get; set; } = turma;

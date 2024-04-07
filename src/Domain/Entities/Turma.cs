@@ -1,4 +1,5 @@
-﻿using Fiap.Api.Escola.Domain.Shared;
+﻿using Fiap.Api.Escola.Domain.Errors;
+using Fiap.Api.Escola.Domain.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,6 +48,11 @@ public class Turma
         string turma,
         int ano)
     {
+        if (ano < DateTime.Now.Year)
+        {
+            return DomainErrors.TurmaAnoInvalido;
+        }
+
         var novaTurma = new Turma(
             cursoId,
             turma,
@@ -61,6 +67,11 @@ public class Turma
         string turma,
         int ano)
     {
+        if (ano < DateTime.Now.Year)
+        {
+            return DomainErrors.TurmaAnoInvalido;
+        }
+
         var turmaAtualizada = new Turma(
             id,
             cursoId,

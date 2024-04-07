@@ -2,6 +2,7 @@ using AutoMapper;
 using Fiap.Api.Escola.Application.Contracts.Responses;
 using Fiap.Api.Escola.Application.Errors;
 using Fiap.Api.Escola.Domain.Abstractions;
+using Fiap.Api.Escola.Domain.Extensions;
 using Fiap.Api.Escola.Domain.Shared;
 using MediatR;
 
@@ -31,6 +32,8 @@ internal sealed class GetAlunoQueryHandler
         {
             return ApplicationErrors.AlunoNotFound;
         }
+
+        aluno.Senha = aluno.Senha.DecryptString();
 
         return _mapper.Map<AlunoResponse>(aluno);
     }
